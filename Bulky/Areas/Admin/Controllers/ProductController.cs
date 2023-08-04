@@ -62,7 +62,7 @@ namespace Bulky.Areas.Admin.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    productVM.Product.imageUrl = @"\images\products" + fileName;
+                    productVM.Product.imageUrl = @"\images\products\" + fileName;
                 }
                 _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
