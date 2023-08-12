@@ -4,6 +4,7 @@ using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Bulky.Areas.Admin.Controllers
 {
@@ -129,5 +130,14 @@ namespace Bulky.Areas.Admin.Controllers
             TempData["success"] = "Product Deleted Successfully.";
             return RedirectToAction("Index");
         }
+        #region API CALLS
+        [HttpGet]
+        public string GetAll()
+            {
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return JsonConvert.SerializeObject(new { data = objProductList }); 
+            // Json(new { data = objProductList });
+        }
+        #endregion
     }
 }
