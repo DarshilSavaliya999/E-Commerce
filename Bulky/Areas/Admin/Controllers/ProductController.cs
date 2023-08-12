@@ -101,41 +101,36 @@ namespace Bulky.Areas.Admin.Controllers
             
         }
 
-        public IActionResult Delete(int? id)
-        {
-            if (id == 0 || id == null)
-            {
-                return NotFound();
-            }
-
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(productFromDb);
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Product? obj = _unitOfWork.Product.Get(u => u.Id == id);
-
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Product.Remove(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Product Deleted Successfully.";
-            return RedirectToAction("Index");
-        }
+        
         #region API CALLS
         [HttpGet]
         public string GetAll()
             {
             List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return JsonConvert.SerializeObject(new { data = objProductList }); 
+            // Json(new { data = objProductList });
+        }
+
+        [HttpDelete]
+        public string Delete(int? id)
+        {
+            var productToBeDeleted = _unitOfWork.Product.Get(u =>u.Id==id);
+            if (productToBeDeleted == null)
+            {
+                return JsonConvert.SerializeObject(new { success = false, 
+                    message = "Error while Deleting"});
+            }
+            var oldImagePath =
+                            Path.Combine(_webHostEnvironment.WebRootPath, 
+                            productToBeDeleted.imageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            _unitOfWork.Product.Remove(productToBeDeleted);
+            _unitOfWork.Save();
+            return JsonConvert.SerializeObject(new { success = true , message = "Delete Successful!!!"});
             // Json(new { data = objProductList });
         }
         #endregion
