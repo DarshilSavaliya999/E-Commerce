@@ -4,6 +4,7 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818103911_addCompanyTable")]
+    partial class addCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,38 +108,6 @@ namespace Bulky.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Surat",
-                            Name = "Limpid Systems",
-                            PhoneNumber = "5666459632",
-                            PostalCode = "394101",
-                            State = "Gujarat",
-                            StreetAddress = "Surat"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Surat",
-                            Name = "Exymoon InfoTech",
-                            PhoneNumber = "1123455963",
-                            PostalCode = "394501",
-                            State = "Gujarat",
-                            StreetAddress = "Surat"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Surat",
-                            Name = "Cygnux InfoTech",
-                            PhoneNumber = "1123451236",
-                            PostalCode = "394504",
-                            State = "Gujarat",
-                            StreetAddress = "Surat"
-                        });
                 });
 
             modelBuilder.Entity("Bulky.Models.Product", b =>

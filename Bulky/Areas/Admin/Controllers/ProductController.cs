@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace Bulky.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -89,7 +89,7 @@ namespace Bulky.Areas.Admin.Controllers
                     _unitOfWork.Product.Update(productVM.Product);
                 }
                 _unitOfWork.Save();
-                TempData["success"] = "Product Created Successfully.";
+                TempData["success"] = "Product Updated Successfully.";
                 return RedirectToAction("Index");
             }
             else
@@ -111,7 +111,7 @@ namespace Bulky.Areas.Admin.Controllers
             {
             List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return JsonConvert.SerializeObject(new { data = objProductList }); 
-            // Json(new { data = objProductList });
+            // return Json(new { data = objProductList });
         }
 
         [HttpDelete]
@@ -120,8 +120,8 @@ namespace Bulky.Areas.Admin.Controllers
             var productToBeDeleted = _unitOfWork.Product.Get(u =>u.Id==id);
             if (productToBeDeleted == null)
             {
-                return JsonConvert.SerializeObject(new { success = false, 
-                    message = "Error while Deleting"});
+                return JsonConvert.SerializeObject(new { success = false,message = "Error while Deleting"});
+                //return Json(new { success = false,message = "Error while Deleting"});
             }
             var oldImagePath =
                             Path.Combine(_webHostEnvironment.WebRootPath, 
@@ -134,7 +134,7 @@ namespace Bulky.Areas.Admin.Controllers
             _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
             return JsonConvert.SerializeObject(new { success = true , message = "Delete Successful!!!"});
-            // Json(new { data = objProductList });
+            //return Json(new { success = true, message = "Delete Successful!!!" });
         }
         #endregion
     }
