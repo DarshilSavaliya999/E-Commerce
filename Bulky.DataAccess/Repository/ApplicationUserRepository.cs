@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class ApplicationUserRepository : Repository<ApplicationUserRepository>, IApplicationUserRepository
+    public class ApplicationUserRepository : Repository<ApplicationUser>, IApplicationUserRepository
     {
         private readonly ApplicationDbContext _db;
         public ApplicationUserRepository(ApplicationDbContext db) : base(db) 
