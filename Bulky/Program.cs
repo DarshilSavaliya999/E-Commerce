@@ -32,6 +32,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddAuthentication().AddFacebook(option =>
+{
+    option.AppId = "296296393034191";
+    option.AppSecret = "588854be1394680f51e4df63fb2fc4a6";
+});
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
